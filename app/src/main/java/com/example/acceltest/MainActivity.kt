@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import kotlin.random.Random
 
 
@@ -21,6 +22,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var last_Y: Float = 0f
     private var last_Z: Float = 0f
 
+//    text values
+    private lateinit var rndText1: TextView
+    private lateinit var rndText2: TextView
+    private lateinit var rndText3: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +36,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         senSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+
+        rndText1 = findViewById(R.id.rnd1)
+        rndText2 = findViewById(R.id.rnd2)
+        rndText3 = findViewById(R.id.rnd3)
     }
 
     override fun onSensorChanged(sensorEvent: SensorEvent?) {
@@ -41,14 +51,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             val y = sensorEvent.values[1]
             val z = sensorEvent.values[2]
 
-            var currentTime: Long = System.currentTimeMillis()
+            val currentTime: Long = System.currentTimeMillis()
 
             if ((currentTime - lastUpdate)>100){
                 val difTime = (currentTime-lastUpdate)
                 lastUpdate = currentTime
                 val speed:Float = Math.abs(x+y+z - last_X -last_Y - last_Z)/difTime*10_000
                 if (speed > SHAKE_THRESHOLD){
-
+                    getRandomValues()
                 }
                 last_X=x
                 last_Y=y
@@ -74,9 +84,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
 //    spectial functions
     fun getRandomValues(){
-        var generetadNumbers:ArrayList<Int> = arrayListOf(6)
+        var generetadNumbers:ArrayList<Int> = arrayListOf(3)
         var cnt:Int = 0
-        while (cnt < 6){
+        while (cnt < 3){
             val rnd = Random.nextInt(48)+1
             if (!generetadNumbers.contains(rnd)){
                 generetadNumbers.add(rnd)
@@ -84,8 +94,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 cnt--
             }
         }
+    rndText1.text = generetadNumbers[0].toString()
+    rndText2.text = generetadNumbers[1].toString()
+    rndText3.text = generetadNumbers[2].toString()
 
-    }
+
+
+}
 
     companion object{
         val SHAKE_THRESHOLD = 600
