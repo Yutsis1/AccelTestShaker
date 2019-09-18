@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(Sensor: Sensor?, accuary: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
 //    functions for make new
@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             } else {
                 cnt--
             }
+            cnt++
         }
     rndText1.text = generetadNumbers[0].toString()
     rndText2.text = generetadNumbers[1].toString()
@@ -103,7 +104,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 }
 
     companion object{
-        val SHAKE_THRESHOLD = 600
+        val SHAKE_THRESHOLD = 100
     }
 
 }
